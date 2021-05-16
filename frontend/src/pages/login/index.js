@@ -8,7 +8,7 @@ export default function Login() {
 
 
     return (
-        <div className='container'>
+        <div className='container-login'>
             <div className='form'>
                 <nav className='navigation-bar'>
                     <ul>
