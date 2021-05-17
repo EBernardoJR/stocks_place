@@ -3,14 +3,15 @@
 This project was made using NodeJS on backend (with mongoDB) and ReactJS on Frontend.
 
 Install packages via npm
-    cd frontend && npm i
 
+    cd frontend && npm i
     cd backend && npm i
 
 Now run the project via yarn or npm
-    cd frontend && yarn start
 
+    cd frontend && yarn start
     cd backend && yarn start
  
-using Nodemon on backend
+Using Nodemon on backend
+
     cd backend && yarn d
