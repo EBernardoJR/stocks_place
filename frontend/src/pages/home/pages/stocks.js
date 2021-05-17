@@ -13,6 +13,9 @@ function Stock({match}) {
   const [valueInputStock, setValueInputStock] = useState('')
   const [stocks, setStocks] = useState([])
   const [stocksCompare, setStocksCompare] = useState([])
+  const [gains, setGains] = useState(false)
+  const [purchaseAmont, setPurchaseAmont] = useState('')
+  const [purchasedAt, setPurchasedAt] = useState('')
   const [from, setfrom] = useState('')
   const [stockName, setStockName] = useState('stock')
 
@@ -39,9 +42,21 @@ function Stock({match}) {
         console.log(e.response)
     })
   }
+  async function getGains(){
+    await api.get(`/stocks/${stockName}/gains`, {
+      params: {
+        purchaseAmont,
+        purchasedAt
+      }
+    }).then(res => {
+      setGains(res.data)
+    }).catch(e => {
+        console.log(e.response)
+    })
+  }
   useEffect(() => {
     setStockName(match.params.stock_name)
-  }, [])
+  }, [match.params.stock_name])
   return (
       <div className='stock-container'>
           <p className='stock-title'>{stockName}</p>
@@ -81,6 +96,7 @@ function Stock({match}) {
             </div>
             
           </div>
+
             <div className="compare">
               <p>Comparar com outras ações</p>
               <p className='add-stock'><input type="text" placeholder='Nome da ação' value={valueInputStock} onChange={e => {
@@ -102,7 +118,7 @@ function Stock({match}) {
               </div>
               <div className="stocks-results">
                 {
-                  stocksCompare.length>1? stocksCompare.map(stock => (
+                  stocksCompare.length>0? stocksCompare.map(stock => (
                     <p>
                     <strong>{stock.name}</strong>
                      <ul>
@@ -119,6 +135,38 @@ function Stock({match}) {
               
                
               </div>
+            </div>
+            <div className="gains">
+              <p>Projetar ganhos</p>
+              <p>Data da aquisição: <input type="date" name="date" id="" value={purchasedAt} onChange={e => setPurchasedAt(e.target.value)}/></p>
+              <p><input type="number" min='1' placeholder='Quantidade de ações' className='amount' value={purchaseAmont} onChange={e => setPurchaseAmont(e.target.value)}/></p>
+              <button type='submit' onClick={getGains}>Consultar</button>
+              <p>
+                
+                  {
+                    gains?
+                    <ul>  
+                      <li>
+                    Quantidade de ações: <strong>{gains.purchaseAmont}</strong>
+                    </li>
+                    <li>
+                      Data da compra: <strong>{gains.purchasedAt}</strong>
+                    </li>
+                    <li>
+                      Preço da compra: <strong>{gains.priceAtDate}</strong>
+                    </li>
+                    <li>
+                      Última cotação: <strong>{gains.lastPrice}</strong>
+                    </li>
+                    <li>
+                      Ganhos: <strong>{gains.capitalGains}</strong>
+                    </li>
+                </ul>
+                  :false
+                  }
+                 
+              </p>
+
             </div>
       </div>
   );

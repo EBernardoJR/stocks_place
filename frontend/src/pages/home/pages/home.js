@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../styles.css'
 import axios from 'axios'
 import Search from '../../../assets/search.svg'
@@ -10,6 +10,7 @@ function Home() {
   const [stocks, setStocks] = useState([])
   const [stock, setStock] = useState(false)
   const [value, setValue] = useState(1)
+
 
   function getStocks(query){
       axios.get(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=5XRW8LUSCPCIB6T7`)
@@ -27,6 +28,22 @@ function Home() {
       })
   }
 
+  async function createStock(){
+      const userId = await localStorage.getItem('user')
+    await api.post(`/stocks` , {
+        stockName: stock.name,
+        amount: value
+    }, {
+        headers: {
+            user_id: userId
+        }
+    }).then(res => {
+        setStock(false)
+        window.location.reload()
+    }).catch(e => {
+        console.log(e.response)
+    })
+  }
 
   return (
     <div>
@@ -64,7 +81,7 @@ function Home() {
                         <input type="number" min='1' value={value} onChange={ e => setValue(e.target.value)}/>
                         <p>total: {(parseFloat(stock.price)*value).toFixed(2)}</p>
                     </p>
-                    <button>Adicionar</button>
+                    <button onClick={createStock}>Adicionar</button>
                     </div>
                    
                    : false

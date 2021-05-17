@@ -231,4 +231,37 @@ module.exports = {
         })
     },
 
+
+    async create(req, res){
+        const userId = req.headers.user_id
+        const {stockName} = req.body
+        const {amount} = req.body
+        console.log(req.body)
+        if(!userId || !stockName || !amount) return res.status(400)
+
+        Stock.create({
+            userId,
+            name: stockName,
+            amount
+        }).then((r) => {
+            return res.json(r)
+        }).catch(e => {
+            console.log(e)
+            return res.status(500)
+        })
+
+    },
+
+    async getStocks(req, res){
+        const userId = req.headers.user_id
+        if(!userId ) return res.status(400)
+        
+        const stocks = await Stock.find({
+            userId
+        })
+
+        return res.json({
+            stocks
+        })
+    }
 }

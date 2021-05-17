@@ -1,7 +1,7 @@
 .container-home {
     flex-direction: row;
     flex: 1;
-    height: 100vh;
+    min-height: 100vh;
     background: #d1d1d1;
     display: flex;
     align-items: flex-start;
@@ -267,3 +267,35 @@ img.icon-search {
     margin: 5px 10px;
     padding: 0;
 } 
+
+.gains {
+    width: 500px;
+    min-height: 150px;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.gains button{
+    margin-left: 350px;
+    height: 30px;
+    width: 130px;
+    margin-top: 0;
+    border-radius: 10px;
+    border: none;
+    background-color: #f74231;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.gains input.amount {
+    padding: 5px;
+    border-radius: 5px;
+    border: #666 solid 1px;
+}
+
+.gains li {
+    list-style: none;
+}
